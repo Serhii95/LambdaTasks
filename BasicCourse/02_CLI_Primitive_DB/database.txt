@@ -1,0 +1,5 @@
+{"name":"Serhii","gender":"male","age":"25"}
+{"name":"Dima","gender":"male","age":"44"}
+{"name":"Serg","gender":"male","age":"55"}
+{"name":"Oleg","gender":"male","age":"88"}
+{"name":"Igor","gender":"male","age":"66"}
