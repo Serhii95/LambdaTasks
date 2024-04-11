@@ -68,7 +68,6 @@ bot.onText(/Погода в місті (.+)$/, async (msg) => {
 bot.onText(/З 3-годинним інтервалом|З 6-годинним інтервалом/, async (msg) => {
     const chatId = msg.chat.id;
     const interval = msg.text;
-    // const city = userCity[chatId].city;
 
     let city;
 
