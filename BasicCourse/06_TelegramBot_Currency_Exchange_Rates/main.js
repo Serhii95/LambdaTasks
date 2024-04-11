@@ -4,6 +4,7 @@
     const socketio = require('socket.io');
     const socketioClient = require('socket.io-client');
 
+    fkljsdlkfjdskljflkdsjklfj
     const token = process.env.TG_TOKEN;
     const urlAPIWhether = 'https://api.openweathermap.org/data/2.5/forecast';
     const urlAPIFoundCity = 'http://api.openweathermap.org/geo/1.0/direct';
