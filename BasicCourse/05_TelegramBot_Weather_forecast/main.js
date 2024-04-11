@@ -155,11 +155,11 @@ async function getLatitudeAndLongitude(city) {
     return null;
 }
 
-async function sendTextMessage(chatId, text) {
+const sendTextMessage = async (chatId, text) => {
     return bot.sendMessage(chatId, text);
 }
 
-async function sendWeatherMenuKeyboard(chatId, city) {
+const sendWeatherMenuKeyboard = async (chatId, city) => {
     return bot.sendMessage(chatId, 'Натисніть на меню', {
         reply_markup: {
             keyboard: [
@@ -170,7 +170,7 @@ async function sendWeatherMenuKeyboard(chatId, city) {
     });
 }
 
-async function sendIntervals(chatId) {
+const sendIntervals = async (chatId) => {
     return bot.sendMessage(chatId, 'Оберіть інтервал', {
         reply_markup: {
             keyboard: [
@@ -182,7 +182,7 @@ async function sendIntervals(chatId) {
     });
 }
 
-function formatWeather(weatherDataArr) {
+const formatWeather = (weatherDataArr) => {
     let result = '';
     let currentDate = null;
 
@@ -206,7 +206,7 @@ function formatWeather(weatherDataArr) {
     return result;
 }
 
-function toFormattedDate(date) {
+const toFormattedDate = (date) => {
     const daysOfWeek = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П\'ятниця', 'Субота'];
     const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
 
@@ -217,7 +217,7 @@ function toFormattedDate(date) {
     return `${dayOfWeek}, ${dayOfMonth} ${monthName}`;
 }
 
-function toFormattedHours(date) {
+const toFormattedHours = (date) => {
     const hour = date.getHours();
     const formattedHour = hour < 10 ? `0${hour}` : hour;
     return `${formattedHour}:00`;
