@@ -4,7 +4,6 @@
     const socketio = require('socket.io');
     const socketioClient = require('socket.io-client');
 
-    fkljsdlkfjdskljflkdsjklfj
     const token = process.env.TG_TOKEN;
     const urlAPIWhether = 'https://api.openweathermap.org/data/2.5/forecast';
     const urlAPIFoundCity = 'http://api.openweathermap.org/geo/1.0/direct';
@@ -180,6 +179,7 @@
                     weatherDataArr.push(element);
                 }
             }
+            
             await sendTextMessage(chatId, `Прогноз погоди в ${city}:\n${formatWeather(weatherDataArr)}`);
         } catch (error) {
             console.error(error)
@@ -266,7 +266,7 @@
         });
     }
 
-    function formatWeather(weatherDataArr) {
+    const formatWeather=(weatherDataArr)=> {
         let result = '';
         let currentDate = null;
 
@@ -290,7 +290,7 @@
         return result;
     }
 
-    function formatWindWeather(weatherDataArr) {
+    const formatWindWeather=(weatherDataArr)=> {
         let result = '';
         let currentDate = null;
 
@@ -310,11 +310,11 @@
         return result;
     }
 
-    async function sendTextMessage(chatId, text) {
+    const sendTextMessage=async(chatId, text)=> {
         return bot.sendMessage(chatId, text);
     }
 
-    function toFormattedDate(date) {
+    const toFormattedDate=(date)=> {
         const daysOfWeek = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П\'ятниця', 'Субота'];
         const months = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
 
@@ -325,13 +325,13 @@
         return `${dayOfWeek}, ${dayOfMonth} ${monthName}`;
     }
 
-    function toFormattedHours(date) {
+    const toFormattedHours=(date)=> {
         const hour = date.getHours();
         const formattedHour = hour < 10 ? `0${hour}` : hour;
         return `${formattedHour}:00`;
     }
 
-    function formatExchangeCurrency(exchangeCurrencyDataArr, currency) {
+    const formatExchangeCurrency=(exchangeCurrencyDataArr, currency)=> {
         let i = 0;
         if (currency === 'USD') {
             i = 1;
