@@ -88,7 +88,7 @@ function shortenUrl() {
         if (answer.confirm) {
             getTinyURL(url);
         } else {
-            console.log(`Your short link: ${url}`);
+            console.log(`Your link: ${url}`);
         }
     });
 }
