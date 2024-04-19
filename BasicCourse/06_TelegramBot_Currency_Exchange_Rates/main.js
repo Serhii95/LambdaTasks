@@ -12,7 +12,7 @@
     const weatherApiKey = process.env.WEATHER_API_KEY;
     const PORT = process.env.PORT || 3000;
 
-    const WAKE_UP_REQUEST_INTERVAL = 60000;
+    const WAKE_UP_REQUEST_INTERVAL = 300000;
 
     let userCity = {};
 
