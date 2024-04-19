@@ -25,7 +25,7 @@ setInterval(() => {
     console.log("Sending awake request!");
 
     ioClient.emit('keepAlive', { message: 'Server is alive!' });
-}, 60000);
+}, 300000);
 
 
 io.on('connection', (socket) => {
