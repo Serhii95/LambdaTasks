@@ -1,5 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
+const fs = require('fs');
 const http = require('http');
 const socketio = require('socket.io');
 const socketioClient = require('socket.io-client');
@@ -11,7 +12,12 @@ const hostingUrl = process.env.HOSTING_URL;
 const apiKey = process.env.WEATHER_API_KEY;
 const PORT = process.env.PORT || 3000;
 
-const userCity = {};
+let userCity = {};
+
+if (fs.existsSync('DB.json')) {
+    const data = fs.readFileSync('DB.json');
+    userCity = JSON.parse(data);
+}
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' })
@@ -57,6 +63,7 @@ bot.on('message', async (msg) => {
         userCity[chatId].city = city;
         userCity[chatId].waitingForCity = false;
         await sendWeatherMenuKeyboard(chatId, city);
+        saveUserCity();
     }
 });
 
@@ -101,6 +108,7 @@ bot.onText(/З 3-годинним інтервалом|З 6-годинним і�
         console.error(error)
         sendTextMessage(chatId, `Виникла помилка на сервері!`);
     };
+    saveUserCity();
 })
 
 bot.on("polling_error", console.log);
@@ -221,4 +229,14 @@ const toFormattedHours = (date) => {
     const hour = date.getHours();
     const formattedHour = hour < 10 ? `0${hour}` : hour;
     return `${formattedHour}:00`;
+}
+
+const saveUserCity = () => {
+    fs.writeFileSync('DB.json', JSON.stringify(userCity), 'utf8', (err) => {
+        if (err) {
+            console.error('Помилка при зберіганні об\'єкту userCity у файлі DB.json:', err);
+        } else {
+            console.log('Об\'єкт userCity збережений у файлі DB.json');
+        }
+    });
 }
