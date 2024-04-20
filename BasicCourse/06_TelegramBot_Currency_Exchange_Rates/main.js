@@ -108,6 +108,10 @@
     bot.onText(/Кожні 3 години|Кожні 6 годин|Вітер/, async (msg) => {
         const chatId = msg.chat.id;
         const option = msg.text;
+        if (fs.existsSync('DB.json')) {
+            const data = fs.readFileSync('DB.json');
+            userCity = JSON.parse(data);
+        }
         if (userCity[chatId] && userCity[chatId].city) {
         const city = userCity[chatId].city;
         switch (option) {
