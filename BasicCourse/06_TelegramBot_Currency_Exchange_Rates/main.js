@@ -108,6 +108,7 @@
     bot.onText(/Кожні 3 години|Кожні 6 годин|Вітер/, async (msg) => {
         const chatId = msg.chat.id;
         const option = msg.text;
+        if (userCity[chatId] && userCity[chatId].city) {
         const city = userCity[chatId].city;
         switch (option) {
             case 'Кожні 3 години':
@@ -123,6 +124,9 @@
                 await bot.sendMessage(chatId, 'Невідома опція');
         }
         saveUserCity();
+    }else{
+        await bot.sendMessage(chatId, 'Будь ласка, спочатку виберіть місто командою /Погода');
+    }
     });
 
     bot.onText(/USD|EUR/, async (msg) => {
