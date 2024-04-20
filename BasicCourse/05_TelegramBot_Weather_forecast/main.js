@@ -77,6 +77,10 @@ bot.onText(/З 3-годинним інтервалом|З 6-годинним і�
     const interval = msg.text;
 
     let city;
+    if (fs.existsSync('DB.json')) {
+        const data = fs.readFileSync('DB.json');
+        userCity = JSON.parse(data);
+    }
 
     if (userCity[chatId] && userCity[chatId].city) {
         city = userCity[chatId].city;
