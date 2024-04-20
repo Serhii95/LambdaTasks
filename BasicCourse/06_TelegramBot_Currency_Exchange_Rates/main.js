@@ -1,5 +1,6 @@
     const TelegramBot = require('node-telegram-bot-api');
     const axios = require('axios');
+    const fs = require('fs');
     const http = require('http');
     const socketio = require('socket.io');
     const socketioClient = require('socket.io-client');
@@ -15,7 +16,11 @@
     const WAKE_UP_REQUEST_INTERVAL = 300000;
 
     let userCity = {};
-
+    if (fs.existsSync('DB.json')) {
+        const data = fs.readFileSync('DB.json');
+        userCity = JSON.parse(data);
+    }
+  
     const server = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'text/plain' })
         res.end('Server is running\n');
@@ -117,6 +122,7 @@
             default:
                 await bot.sendMessage(chatId, 'Невідома опція');
         }
+        saveUserCity();
     });
 
     bot.onText(/USD|EUR/, async (msg) => {
@@ -150,6 +156,7 @@
             userCity[chatId].city = city;
             userCity[chatId].waitingForCity = false;
             await bot.sendMessage(chatId, `Ви вибрали місто: ${city}`, weatherMenuKeyboard);
+            saveUserCity();
         }
 
     });
@@ -345,4 +352,14 @@
         return `${baseCurrency}->${currency}
         Покупка: ${currencyBuy}
         Продаж: ${currencySale}`;
+    }
+
+    const saveUserCity = () => {
+        fs.writeFileSync('DB.json', JSON.stringify(userCity), 'utf8', (err) => {
+            if (err) {
+                console.error('Помилка при зберіганні об\'єкту userCity у файлі DB.json:', err);
+            } else {
+                console.log('Об\'єкт userCity збережений у файлі DB.json');
+            }
+        });
     }
