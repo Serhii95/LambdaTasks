@@ -17,7 +17,7 @@
 
     let userCity = {};
 
-    const readUserData=()=>{
+    const readUserData = () => {
         if (fs.existsSync('DB.json')) {
             const data = fs.readFileSync('DB.json');
             userCity = JSON.parse(data);
@@ -130,9 +130,9 @@
                 await bot.sendMessage(chatId, 'Невідома опція');
         }
         saveUserCity();
-    }else{
-        await bot.sendMessage(chatId, 'Будь ласка, спочатку виберіть місто командою /Погода');
-    }
+        } else {
+            await bot.sendMessage(chatId, 'Будь ласка, спочатку виберіть місто командою /Погода');
+        }
     });
 
     bot.onText(/USD|EUR/, async (msg) => {
@@ -165,6 +165,20 @@
         if (userCity[chatId] && userCity[chatId].waitingForCity) {
             userCity[chatId].city = city;
             userCity[chatId].waitingForCity = false;
+
+            try {
+                const cityCoords = await getLatitudeAndLongitude(city);
+
+                if (cityCoords === null) {
+                    await sendTextMessage(chatId, `Місто не знайдено: ${city}`);
+                    await askForCity(chatId);
+
+                    return;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
             await bot.sendMessage(chatId, `Ви вибрали місто: ${city}`, weatherMenuKeyboard);
             saveUserCity();
         }
@@ -260,7 +274,7 @@
         })
             .then((response) => response.data)
             .catch((error) => {
-                throw new Error("Виникла помилка отримання даних про місто!", error)
+                throw new Error("Виникла помилка отримання даних про місто!: " + error)
             });
 
         if (data && data.length) {
