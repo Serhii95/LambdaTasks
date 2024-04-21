@@ -162,11 +162,16 @@
         const chatId = msg.chat.id;
         const city = msg.text;
 
+        if (city === 'Попереднє меню') {
+            return;
+        }
+
         if (userCity[chatId] && userCity[chatId].waitingForCity) {
             userCity[chatId].city = city;
             userCity[chatId].waitingForCity = false;
 
             try {
+
                 const cityCoords = await getLatitudeAndLongitude(city);
 
                 if (cityCoords === null) {
@@ -175,6 +180,7 @@
 
                     return;
                 }
+
             } catch (error) {
                 console.log(error);
             }
@@ -182,6 +188,7 @@
             await bot.sendMessage(chatId, `Ви вибрали місто: ${city}`, weatherMenuKeyboard);
             saveUserCity();
         }
+
 
     });
 
